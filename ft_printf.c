@@ -6,54 +6,72 @@
 /*   By: yael-you <yael-you@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:16:32 by yael-you          #+#    #+#             */
-/*   Updated: 2025/02/04 17:38:10 by yael-you         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:02:08 by yael-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
+#include "libftprintf.h"
 
-int	ft_converter(char format, va_list args)
+int	ft_converter(char format, va_list args, int *count)
 {
-	char	*base;
-
-	base = "0123456789abcdef";
 	if (format == 'c')
-		ft_putchar(va_arg(args, char));
+		ft_putchar((char)va_arg(args, int), count);
 	else if (format == 's')
-		ft_putstr(va_arg(args, char *));
+		ft_putstr(va_arg(args, char *), count);
 	else if (format == 'p')
-		ftptr(va_arg(args, int));
+		ft_ptr(args, count);
 	else if (format == 'd')
-		ft_putnbr(va_arg(args, int));
+		ft_putnbr_base(va_arg(args, int), "0123456789", count);
 	else if (format == 'u')
-		ft_putnbr_base(va_arg(args, unsigned int));
+		ft_putnbr_base(va_arg(args, unsigned int), "0123456789", count);
 	else if (format == 'x')
-		ft_putnbr_base(va_arg(args, int));
+		ft_putnbr_base(va_arg(args, unsigned int), "0123456789abcdef", count);
 	else if (format == 'X')
-		ft_hexa_base10_tolower(va_arg(args, int));
+		ft_putnbr_base(va_arg(args, unsigned int), "0123456789ABCDEF", count);
 	else if (format == '%')
-		return (ft_putchar(va_arg(args, char)));
+		ft_putchar('%', count);
+	return (0);
 }
 int	ft_printf(char const *format, ...)
 {
 	va_list	args;
+	int		c;
 
+	c = 0;
 	va_start(args, format);
-	if (format == '\0')
-		 ft_putchar(' ');
+	if (*format == '\0')
+		ft_putchar(' ', &c);
 	while (format)
 	{
 		if (*format == '%')
+		{
 			format++;
+			ft_converter(*format, args, &c);
+		}
+		else
+			ft_putchar(*format, &c);
+		format++;
 	}
 	va_end(args);
-	return (ft_strlen(format));
+	return (c);
 }
-int	ft_ptr(void)
+void	ft_ptr(va_list args, int *count)
 {
-	int i;
-	int *ptr;
+	char	*base;
+	void	*ptr;
 
-	ptr = &i;
-	ft_putchar(&i);
+	base = "0123456789abcdef";
+	ptr = va_arg(args, void *);
+	if (ptr == NULL)
+		ft_putstr("(nil)", count);
+	else
+	{
+		ft_putstr("0x", count);
+		ft_putnbr_base(va_arg(args, int),base, count);
+	}
 }
+/* int	main(void)
+{
+	ft_printf("Hello %s","eeeee");
+	return (0);
+} */

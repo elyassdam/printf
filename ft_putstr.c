@@ -6,20 +6,15 @@
 /*   By: yael-you <yael-you@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:39:43 by yael-you          #+#    #+#             */
-/*   Updated: 2025/02/04 13:51:24 by yael-you         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:28:28 by yael-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libftprintf.h"
 
-void	ft_putstr(char *str)
+void	ft_putstr(char *str, int *count)
 {
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0' )
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
+	while (*str != '\0' )
+        ft_putchar( *str++, count);
+    count ++;
 }
