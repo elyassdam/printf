@@ -2,13 +2,13 @@
 NAME = libftprintf.a
 
 # Compilador y banderas
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -f
 
 # Archivos fuente y objeto
-SRC = ft_printf.c ft_putchar.c ft_putstr.c ft_putnbr_base.c ft_ptr.c ft_converter.c
+SRC = ft_printf.c ft_putchar.c ft_putnbr.c ft_putnbru.c ft_putstr.c ft_putnbr_base.c  ft_ptr.c ft_converter.c
 OBJ = $(SRC:.c=.o)
 
 # Regla por defecto

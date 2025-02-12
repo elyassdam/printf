@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yael-you <yael-you@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 16:16:32 by yael-you          #+#    #+#             */
-/*   Updated: 2025/02/06 12:15:59 by yael-you         ###   ########.fr       */
+/*   Created: 2025/02/06 01:13:40 by yael-you          #+#    #+#             */
+/*   Updated: 2025/02/06 13:27:31 by yael-you         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(char const *format, ...)
+void	ft_putnbr(int n, int *count)
 {
-	va_list	args;
-	int		c;
-
-	c = 0;
-	va_start(args, format);
-	if (!format)
-		return (-1);
-	while (*format)
+	if (n == -2147483648)
 	{
-		if (*format == '%')
-		{
-			format++;
-			ft_converter(*format, args, &c);
-		}
-		else
-			ft_putchar(*format, &c);
-		format++;
+		write(1, "-2147483648", 11);
+		(*count) += 11;
+		return ;
 	}
-	va_end(args);
-	return (c);
+	if (n == 0)
+	{
+		ft_putchar('0', count);
+		return ;
+	}
+	if (n < 0)
+	{
+		ft_putchar('-', count);
+		n = -n;
+	}
+	if (n >= 10)
+		ft_putnbr(n / 10, count);
+	ft_putchar((n % 10) + '0', count);
 }
